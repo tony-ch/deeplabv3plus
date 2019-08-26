@@ -93,11 +93,21 @@ def get_extra_layer_scopes(last_layers_contain_logits_only=False):
         META_ARCHITECTURE_SCOPE,
     ]
 
-
+def handle_result(logits, mode):
+  if mode == 'softmax_single':
+    #outputs_to_predictions[output] = predictions[:,:,:,1]
+    return tf.nn.softmax(logits)[:,:,:,1]
+  elif mode == 'argmax':
+    return tf.argmax(logits, 3)
+  elif mode == 'softmax_multi':
+    return tf.nn.softmax(logits)
+  else:
+    raise Exception("wrong mode")
+    
 def predict_labels_multi_scale(images,
                                model_options,
                                eval_scales=(1.0,),
-                               add_flipped_images=False):
+                               add_flipped_images=False, res_mode='argmax'):
   """Predicts segmentation labels.
 
   Args:
@@ -157,12 +167,12 @@ def predict_labels_multi_scale(images,
     predictions = outputs_to_predictions[output]
     # Compute average prediction across different scales and flipped images.
     predictions = tf.reduce_mean(tf.concat(predictions, 4), axis=4)
-    outputs_to_predictions[output] = tf.argmax(predictions, 3)
+    outputs_to_predictions[output] = handle_result(predictions, res_mode)
 
   return outputs_to_predictions
 
 
-def predict_labels(images, model_options, image_pyramid=None):
+def predict_labels(images, model_options, image_pyramid=None, res_mode='argmax'):
   """Predicts segmentation labels.
 
   Args:
@@ -194,9 +204,9 @@ def predict_labels(images, model_options, image_pyramid=None):
       logits = _resize_bilinear(logits,
                                 tf.shape(images)[1:3],
                                 scales_to_logits[MERGED_LOGITS_SCOPE].dtype)
-      predictions[output] = tf.argmax(logits, 3)
+      predictions[output] = handle_result(logits, res_mode)
     else:
-      argmax_results = tf.argmax(logits, 3)
+      argmax_results = handle_result(logits, res_mode)
       argmax_results = tf.image.resize_nearest_neighbor(
           tf.expand_dims(argmax_results, 3),
           tf.shape(images)[1:3],
