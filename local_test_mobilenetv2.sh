@@ -26,11 +26,11 @@
 # Exit immediately if a command exits with a non-zero status.
 set -e
 
-# Move one-level up to tensorflow/models/research directory.
-cd ..
-
 # Update PYTHONPATH.
 export PYTHONPATH=$PYTHONPATH:`pwd`:`pwd`/slim
+
+# Move one-level up to parent directory.
+cd ..
 
 # Set up the working environment.
 CURRENT_DIR=$(pwd)
