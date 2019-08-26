@@ -33,6 +33,11 @@ _ADE20K = 'ade20k'
 _CITYSCAPES = 'cityscapes'
 _MAPILLARY_VISTAS = 'mapillary_vistas'
 _PASCAL = 'pascal'
+_MARS = 'mars'
+_LIP = 'lip'
+_PORTRAIT = 'portrait'
+_MATTING = 'matting'
+_SHEN_MATTING = 'shen_matting'
 
 # Max number of entries in the colormap for each dataset.
 _DATASET_MAX_ENTRIES = {
@@ -40,6 +45,11 @@ _DATASET_MAX_ENTRIES = {
     _CITYSCAPES: 256,
     _MAPILLARY_VISTAS: 66,
     _PASCAL: 256,
+    _MARS: 2,
+    _LIP: 20,
+    _PORTRAIT: 2,
+    _MATTING: 2,
+    _SHEN_MATTING: 3,
 }
 
 
@@ -325,6 +335,48 @@ def create_pascal_label_colormap():
 
   return colormap
 
+def create_mars_label_colormap():
+    return np.asarray([
+      [0, 0, 0],
+      [255, 255, 255],
+  ])
+
+def create_trimap_label_colormap():
+    return np.asarray([
+      [0, 0, 0],
+      [128, 128, 128],
+      [255, 255, 255],
+  ])
+
+def create_lip_label_colormap():
+    return np.asarray([
+      [0, 0, 0],
+      [0.5, 0, 0],
+      [0.9961, 0, 0],
+      [0, 0.3320, 0],
+      [0.6641, 0, 0.1992],
+      [0.9961, 0.3320, 0],
+      [0, 0, 0.3320],
+      [0, 0.4648, 0.8633],
+      [0.3320, 0.3320, 0],
+      [0, 0.3320, 0.3320],
+      [0.3320, 0.1992, 0],
+      [0.2031, 0.3359, 0.500],
+      [0, 0.5, 0],
+      [0, 0, 0.9961],
+      [0.1992, 0.6641, 0.8633],
+      [0, 0.9961, 0.9961],
+      [0.3320, 0.9961, 0.6641],
+      [0.6641, 0.9961, 0.3320],
+      [0.9961, 0.9961, 0],
+      [0.9961, 0.6641, 0],
+    ])
+
+def create_portrait_label_colormap():
+    return create_mars_label_colormap()
+
+def create_matting_label_colormap():
+    return create_mars_label_colormap()
 
 def get_ade20k_name():
   return _ADE20K
@@ -340,6 +392,21 @@ def get_mapillary_vistas_name():
 
 def get_pascal_name():
   return _PASCAL
+
+def get_mars_name():
+  return _MARS
+
+def get_lip_name():
+  return _LIP
+
+def get_portrait_name():
+  return _PORTRAIT
+
+def get_matting_name():
+  return _MATTING
+
+def get_shen_matting_name():
+  return _SHEN_MATTING
 
 
 def bit_get(val, idx):
@@ -375,6 +442,16 @@ def create_label_colormap(dataset=_PASCAL):
     return create_mapillary_vistas_label_colormap()
   elif dataset == _PASCAL:
     return create_pascal_label_colormap()
+  elif dataset == _MARS:
+    return create_mars_label_colormap()
+  elif dataset == _PORTRAIT:
+    return create_portrait_label_colormap()
+  elif dataset == _LIP:
+    return create_lip_label_colormap()
+  elif dataset == _MATTING:
+    return create_matting_label_colormap()
+  elif dataset == _SHEN_MATTING:
+    return create_trimap_label_colormap()
   else:
     raise ValueError('Unsupported dataset.')
 

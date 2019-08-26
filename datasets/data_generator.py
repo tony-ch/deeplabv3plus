@@ -95,11 +95,59 @@ _ADE20K_INFORMATION = DatasetDescriptor(
     num_classes=151,
     ignore_label=0,
 )
+_MARS_INFORMATION = DatasetDescriptor(
+    splits_to_sizes={
+        'train':509914,
+        'test':681089,
+    },
+    num_classes=2,
+    ignore_label=255,
+)
+
+_LIP_INFORMATION = DatasetDescriptor(
+    splits_to_sizes={
+        'train':33280,
+    },
+    num_classes=20,
+    ignore_label=-1,
+)
+
+_PORTRAIT_INFORMATION = DatasetDescriptor(
+    splits_to_sizes={
+         'train':5363,
+         'test':92,
+    },
+    num_classes=2,
+    ignore_label=255,
+)
+
+_SHEN_MATTING_INFORMATION = DatasetDescriptor(
+    splits_to_sizes={
+         'train':1700,
+         'test':300,
+    },
+    num_classes=3,
+    ignore_label=255,
+)
+
+_MATTING_INFORMATION = DatasetDescriptor(
+   splits_to_sizes={
+          'train':31426,
+          'test':3000,
+   },
+   num_classes=2,
+   ignore_label=255,
+)
 
 _DATASETS_INFORMATION = {
     'cityscapes': _CITYSCAPES_INFORMATION,
     'pascal_voc_seg': _PASCAL_VOC_SEG_INFORMATION,
     'ade20k': _ADE20K_INFORMATION,
+    'mars': _MARS_INFORMATION,
+    'lip': _LIP_INFORMATION,
+    'portrait': _PORTRAIT_INFORMATION,
+    'matting': _MATTING_INFORMATION,
+    'shen_matting': _SHEN_MATTING_INFORMATION,
 }
 
 # Default file pattern of TFRecord of TensorFlow Example.
